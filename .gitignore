@@ -34,3 +34,6 @@ htmlcov/
 .idea/
 *.swp
 .DS_Store
+
+# Local staging for the home-assistant/brands PR (not part of the integration)
+brands_submission/
