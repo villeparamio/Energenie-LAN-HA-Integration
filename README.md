@@ -4,8 +4,13 @@ Custom Home Assistant integration to control the 4 switchable sockets of a
 **Gembird/EnerGenie EG-PM2-LAN** power strip over its **native LAN protocol**
 (TCP port 5000). 100% local — the EnerGenie.com cloud is never used.
 
+[![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://hacs.xyz/docs/faq/custom_repositories)
+[![Validate](https://github.com/villeparamio/Energenie-LAN-HA-Integration/actions/workflows/validate.yml/badge.svg)](https://github.com/villeparamio/Energenie-LAN-HA-Integration/actions/workflows/validate.yml)
+
 The protocol crypto/framing is a 1:1 port of [egctl](https://github.com/unterwulf/egctl)
 (MIT). See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+[![Open your Home Assistant instance and add this repository to HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=villeparamio&repository=Energenie-LAN-HA-Integration&category=integration)
 
 ## Layout
 
@@ -21,7 +26,6 @@ custom_components/energenie_lan/
   coordinator.py              DataUpdateCoordinator (serialized, in executor)
   config_flow.py              UI setup, validates with a real handshake
   switch.py                   4 SwitchEntity (one per socket)
-  helpers.py                  Best-effort MAC resolution (pure-Python ARP read)
   strings.json, translations/ en + es
 scripts/probe.py              CLI to validate the library against the real strip
 tests/                        Unit + fake-device tests, byte-exact check vs egctl C
@@ -38,20 +42,47 @@ ships as a single HACS package; it still has zero Home Assistant dependencies.
 - **Phase 2 — HA integration: complete.** Config flow, coordinator, 4 switches,
   en/es translations. Pending GATE 2 validation in real HA.
 
-## Install (HACS / manual)
+## Installation
 
-Copy the integration into your Home Assistant config:
+**Requires Home Assistant ≥ 2024.6** (uses `entry.runtime_data`).
 
-```
+This is not (yet) in the HACS default store, so add it as a **custom repository**.
+
+### Option A — HACS (recommended)
+
+1. In Home Assistant go to **HACS**.
+2. Top-right menu **⋮ → Custom repositories**.
+3. **Repository:** `https://github.com/villeparamio/Energenie-LAN-HA-Integration`
+   **Category:** `Integration` → **Add**.
+4. Search for **"EnerGenie EG-PM2-LAN"** in HACS and **Download** it.
+5. **Restart Home Assistant** (Settings → System → Restart).
+
+### Option B — Manual
+
+Copy the integration folder into your HA config directory and restart:
+
+```bash
 cp -r custom_components/energenie_lan /config/custom_components/
 ```
 
-Restart Home Assistant, then **Settings → Devices & Services → Add Integration →
-"EnerGenie EG-PM2-LAN"** and enter the IP and password (MAC is optional, only for
-a nicer device card). Four `switch` entities (Socket 1-4) appear and control the
-strip locally.
+After restarting, `/config/custom_components/energenie_lan/` should exist.
 
-**Requires Home Assistant ≥ 2024.6** (uses `entry.runtime_data`).
+## Configuration (UI)
+
+1. **Settings → Devices & Services → + Add Integration**.
+2. Search for **EnerGenie** and pick **"EnerGenie EG-PM2-LAN"**.
+3. Fill in the form:
+   - **IP address** — the strip's local IP.
+   - **Password** — the device password.
+   - **Port** — `5000` (default).
+   - **MAC** — optional, only for a nicer device card (the `88:B6:27:…` on the label).
+4. **Submit.**
+
+On success you get one device with **4 switches** (Socket 1-4) that control the
+strip locally. Form errors: *invalid auth* = wrong password; *cannot connect* =
+wrong IP/port, strip powered off, or HA can't reach it (common when HA runs in a
+Docker **bridge/NAT** network and the strip is on another subnet — use
+`network_mode: host` / macvlan, or put both on the same network).
 
 Entity/device identity is the config entry's UUID (`entry_id`): stable across
 restarts and IP changes, deterministic, and independent of the network — the
