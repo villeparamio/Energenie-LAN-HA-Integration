@@ -7,18 +7,21 @@
         "data": {
           "host": "IP address",
           "password": "Password",
-          "port": "Port"
+          "port": "Port",
+          "mac": "MAC address (optional)"
         },
         "data_description": {
           "host": "The local IP address of the power strip.",
           "password": "The device password (set in the EnerGenie configuration).",
-          "port": "Native protocol TCP port (default 5000)."
+          "port": "Native protocol TCP port (default 5000).",
+          "mac": "Optional. The MAC printed on the strip's label (88:B6:27:...), only used for a nicer device card."
         }
       }
     },
     "error": {
       "cannot_connect": "Could not connect to the device. Check the IP address, port and that the strip is powered on.",
       "invalid_auth": "Authentication failed. The password is incorrect.",
+      "invalid_mac": "The MAC address format is invalid (expected aa:bb:cc:dd:ee:ff).",
       "unknown": "Unexpected error."
     },
     "abort": {

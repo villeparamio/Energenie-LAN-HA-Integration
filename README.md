@@ -47,8 +47,16 @@ cp -r custom_components/energenie_lan /config/custom_components/
 ```
 
 Restart Home Assistant, then **Settings → Devices & Services → Add Integration →
-"EnerGenie EG-PM2-LAN"** and enter the IP and password. Four `switch` entities
-(Socket 1-4) appear and control the strip locally.
+"EnerGenie EG-PM2-LAN"** and enter the IP and password (MAC is optional, only for
+a nicer device card). Four `switch` entities (Socket 1-4) appear and control the
+strip locally.
+
+**Requires Home Assistant ≥ 2024.6** (uses `entry.runtime_data`).
+
+Entity/device identity is the config entry's UUID (`entry_id`): stable across
+restarts and IP changes, deterministic, and independent of the network — the
+native protocol exposes no hardware id. Adding the same `host:port` twice is
+rejected, since the device only accepts one TCP session at a time.
 
 ## Library usage
 

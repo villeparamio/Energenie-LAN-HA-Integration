@@ -7,18 +7,21 @@
         "data": {
           "host": "Dirección IP",
           "password": "Contraseña",
-          "port": "Puerto"
+          "port": "Puerto",
+          "mac": "Dirección MAC (opcional)"
         },
         "data_description": {
           "host": "La dirección IP local de la regleta.",
           "password": "La contraseña del dispositivo (definida en la configuración de EnerGenie).",
-          "port": "Puerto TCP del protocolo nativo (por defecto 5000)."
+          "port": "Puerto TCP del protocolo nativo (por defecto 5000).",
+          "mac": "Opcional. La MAC impresa en la etiqueta de la regleta (88:B6:27:...), solo para mostrar mejor el dispositivo."
         }
       }
     },
     "error": {
       "cannot_connect": "No se pudo conectar con el dispositivo. Comprueba la IP, el puerto y que la regleta esté encendida.",
       "invalid_auth": "Error de autenticación. La contraseña es incorrecta.",
+      "invalid_mac": "El formato de la dirección MAC no es válido (se espera aa:bb:cc:dd:ee:ff).",
       "unknown": "Error inesperado."
     },
     "abort": {

@@ -51,15 +51,17 @@ class EnergenieSocketSwitch(
         super().__init__(coordinator)
         self._index = index
 
-        # Stable per-socket id: MAC if known, else host:port (from the entry).
-        base_id = entry.data.get(CONF_MAC) or entry.unique_id or entry.entry_id
-        self._attr_unique_id = f"{base_id}_{index}"
+        # Identity is the config entry's UUID: stable across restarts and IP
+        # changes, deterministic, and independent of the network. The native
+        # protocol exposes no hardware id, so this is the standard HA approach.
+        self._attr_unique_id = f"{entry.entry_id}_{index}"
         self._attr_translation_key = "socket"
         self._attr_translation_placeholders = {"number": str(index + 1)}
 
+        # MAC is optional and purely cosmetic (a nicer device card / connection).
         mac = entry.data.get(CONF_MAC)
         self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, base_id)},
+            identifiers={(DOMAIN, entry.entry_id)},
             manufacturer=MANUFACTURER,
             model=MODEL,
             name=f"EnerGenie ({entry.data[CONF_HOST]})",
