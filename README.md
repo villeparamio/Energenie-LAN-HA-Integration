@@ -10,22 +10,45 @@ The protocol crypto/framing is a 1:1 port of [egctl](https://github.com/unterwul
 ## Layout
 
 ```
-pyegpm/                       Standalone client library (no HA dependency)
-  const.py                    Protocol constants (ported from egctl)
-  protocol.py                 Crypto/framing: key, challenge, status, controls
-  client.py                   Synchronous TCP client (handshake, sessions, I/O)
-custom_components/
-  energenie_lan/              Home Assistant integration (Phase 2)
+custom_components/energenie_lan/
+  pyegpm/                     Standalone client library (no HA dependency)
+    const.py                  Protocol constants (ported from egctl)
+    protocol.py               Crypto/framing: key, challenge, status, controls
+    client.py                 Synchronous TCP client (handshake, sessions, I/O)
+  manifest.json               Integration manifest (config_flow, local_polling)
+  const.py                    Integration constants
+  __init__.py                 Setup + config entry wiring
+  coordinator.py              DataUpdateCoordinator (serialized, in executor)
+  config_flow.py              UI setup, validates with a real handshake
+  switch.py                   4 SwitchEntity (one per socket)
+  helpers.py                  Best-effort MAC resolution (pure-Python ARP read)
+  strings.json, translations/ en + es
 scripts/probe.py              CLI to validate the library against the real strip
-tests/                        Unit tests incl. byte-exact check vs egctl C
+tests/                        Unit + fake-device tests, byte-exact check vs egctl C
 reference/                    egctl + asig/energenie sources (porting only)
 ```
+
+The standalone library lives inside the integration folder so the whole thing
+ships as a single HACS package; it still has zero Home Assistant dependencies.
 
 ## Status
 
 - **Phase 1 — protocol client: complete.** Byte-exact vs egctl (2000 random
   vectors), and `probe.py status` matches `egctl` against the real device.
-- **Phase 2 — HA integration:** pending GATE 1 approval.
+- **Phase 2 — HA integration: complete.** Config flow, coordinator, 4 switches,
+  en/es translations. Pending GATE 2 validation in real HA.
+
+## Install (HACS / manual)
+
+Copy the integration into your Home Assistant config:
+
+```
+cp -r custom_components/energenie_lan /config/custom_components/
+```
+
+Restart Home Assistant, then **Settings → Devices & Services → Add Integration →
+"EnerGenie EG-PM2-LAN"** and enter the IP and password. Four `switch` entities
+(Socket 1-4) appear and control the strip locally.
 
 ## Library usage
 

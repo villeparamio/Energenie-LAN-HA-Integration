@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "EnerGenie EG-PM2-LAN",
+        "description": "Introduce la dirección IP y la contraseña de tu regleta EnerGenie. El control es 100% local mediante el protocolo nativo LAN (TCP).",
+        "data": {
+          "host": "Dirección IP",
+          "password": "Contraseña",
+          "port": "Puerto"
+        },
+        "data_description": {
+          "host": "La dirección IP local de la regleta.",
+          "password": "La contraseña del dispositivo (definida en la configuración de EnerGenie).",
+          "port": "Puerto TCP del protocolo nativo (por defecto 5000)."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "No se pudo conectar con el dispositivo. Comprueba la IP, el puerto y que la regleta esté encendida.",
+      "invalid_auth": "Error de autenticación. La contraseña es incorrecta.",
+      "unknown": "Error inesperado."
+    },
+    "abort": {
+      "already_configured": "Este dispositivo ya está configurado."
+    }
+  },
+  "entity": {
+    "switch": {
+      "socket": {
+        "name": "Toma {number}"
+      }
+    }
+  }
+}

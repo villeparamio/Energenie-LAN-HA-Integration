@@ -26,8 +26,17 @@ import logging
 import sys
 from pathlib import Path
 
-# Allow running straight from the repo without installing the package.
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+# Allow running straight from the repo without installing the package: the
+# standalone library is vendored inside the integration folder so it ships via
+# HACS. It has no Home Assistant dependency, so it imports fine on its own.
+sys.path.insert(
+    0,
+    str(
+        Path(__file__).resolve().parent.parent
+        / "custom_components"
+        / "energenie_lan"
+    ),
+)
 
 from pyegpm import (  # noqa: E402
     DEFAULT_PORT,

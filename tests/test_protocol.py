@@ -17,7 +17,14 @@ from pathlib import Path
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(
+    0,
+    str(
+        Path(__file__).resolve().parent.parent
+        / "custom_components"
+        / "energenie_lan"
+    ),
+)
 
 from pyegpm import const  # noqa: E402
 from pyegpm.protocol import (  # noqa: E402

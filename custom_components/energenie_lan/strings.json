@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "EnerGenie EG-PM2-LAN",
+        "description": "Enter the IP address and password of your EnerGenie power strip. Control is 100% local over the native LAN protocol (TCP).",
+        "data": {
+          "host": "IP address",
+          "password": "Password",
+          "port": "Port"
+        },
+        "data_description": {
+          "host": "The local IP address of the power strip.",
+          "password": "The device password (set in the EnerGenie configuration).",
+          "port": "Native protocol TCP port (default 5000)."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not connect to the device. Check the IP address, port and that the strip is powered on.",
+      "invalid_auth": "Authentication failed. The password is incorrect.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This device is already configured."
+    }
+  },
+  "entity": {
+    "switch": {
+      "socket": {
+        "name": "Socket {number}"
+      }
+    }
+  }
+}

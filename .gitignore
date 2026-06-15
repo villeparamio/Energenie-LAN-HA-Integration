@@ -8,6 +8,7 @@ egtab
 *.pcapng
 probe_config*
 .env
+CLAUDE.md
 
 # --- Reference code (only for porting, not part of the integration) ---
 reference/
