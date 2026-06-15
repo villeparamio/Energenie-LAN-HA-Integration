@@ -23,6 +23,9 @@ jobs:
       - uses: hacs/action@main
         with:
           category: integration
+          # 'brands' requires the integration to be registered in the
+          # home-assistant/brands repo; ignore until the icon/logo is submitted.
+          ignore: brands
 
   tests:
     name: Unit tests
