@@ -63,7 +63,7 @@ rejected, since the device only accepts one TCP session at a time.
 ```python
 from pyegpm import EnergenieClient
 
-with EnergenieClient("192.168.1.3", "password", port=5000, proto="pms21") as c:
+with EnergenieClient("192.168.x.x", "password", port=5000, proto="pms21") as c:
     print(c.get_status())     # [False, False, True, True]
     c.set_socket(0, True)     # turn socket 1 on
     c.set_all([True, True, False, False])
@@ -76,14 +76,14 @@ with EnergenieClient("192.168.1.3", "password", port=5000, proto="pms21") as c:
 
 ```bash
 # Read status (compare with: egctl regleta)
-python3 scripts/probe.py --host 192.168.1.3 --password <pass> status
+python3 scripts/probe.py --host 192.168.x.x --password <pass> status
 
 # Or pull host/password from an egtab file
 python3 scripts/probe.py --egtab ~/.egtab --name regleta status
 
 # Switch socket 1 (1-based, like the physical label)
-python3 scripts/probe.py --host 192.168.1.3 --password <pass> on 1
-python3 scripts/probe.py --host 192.168.1.3 --password <pass> off 1
+python3 scripts/probe.py --host 192.168.x.x --password <pass> on 1
+python3 scripts/probe.py --host 192.168.x.x --password <pass> off 1
 
 # Show handshake hex (no secrets) for forensic comparison
 python3 scripts/probe.py --egtab ~/.egtab --name regleta --debug status
@@ -98,10 +98,3 @@ python3 -m pytest tests/ -q
 The `test_byte_exact_vs_egctl_c` test compiles `tests/egctl_ref.c` (the exact C
 arithmetic from egctl) and checks the Python port matches byte-for-byte. It is
 skipped automatically if no C compiler is present.
-
-## Notes / constraints
-
-- Pure Python, no external binaries, no `subprocess` in the integration.
-- The device accepts ~one TCP session at a time and drops idle connections, so
-  every operation opens a fresh session (exactly like egctl).
-- The password is never logged. Protocol debug logs are hex, without secrets.

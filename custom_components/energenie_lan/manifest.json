@@ -1,12 +1,12 @@
 {
   "domain": "energenie_lan",
   "name": "EnerGenie EG-PM2-LAN",
-  "codeowners": ["@davidparamio"],
+  "codeowners": ["@villeparamio"],
   "config_flow": true,
-  "documentation": "https://github.com/davidparamio/Energenie-LAN-HA-Integration",
+  "documentation": "https://github.com/villeparamio/Energenie-LAN-HA-Integration",
   "integration_type": "device",
   "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/davidparamio/Energenie-LAN-HA-Integration/issues",
+  "issue_tracker": "https://github.com/villeparamio/Energenie-LAN-HA-Integration/issues",
   "requirements": [],
   "version": "0.1.0"
 }
