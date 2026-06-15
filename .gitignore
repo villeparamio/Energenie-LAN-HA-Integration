@@ -1,0 +1,35 @@
+# --- Credentials: NEVER commit anything that may contain a password / device IP ---
+.egtab
+egtab
+*.egtab
+*secret*
+*credentials*
+*.pcap
+*.pcapng
+probe_config*
+.env
+
+# --- Reference code (only for porting, not part of the integration) ---
+reference/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+*.swp
+.DS_Store
